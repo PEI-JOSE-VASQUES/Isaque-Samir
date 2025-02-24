@@ -16,7 +16,7 @@ int ultimoDiaMes = -1;
 int ultimoMes = -1;
 
 
-// Sua imagem 64x50px
+
 const unsigned char logo [] PROGMEM = {
     0x00, 0x00, 0x00, 0x00, 0xc0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0xc1, 0xe0, 0x02, 0x10, 0x00, 
     0x00, 0x00, 0x03, 0xf1, 0xe0, 0x02, 0x10, 0x00, 0x00, 0x00, 0x0f, 0xf9, 0xe0, 0x00, 0x00, 0x00, 
@@ -48,7 +48,7 @@ const unsigned char logo [] PROGMEM = {
 
 
 
-// 'rede', 64x50px
+
 const unsigned char rede1 [] PROGMEM = {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
@@ -204,12 +204,12 @@ const unsigned char bloqueio [] PROGMEM = {
 #include <HardwareSerial.h>
 #include <DFRobotDFPlayerMini.h>
 
-// Defina os pinos utilizados no ESP32
-#define DFPLAYER_RX 4  // RX do ESP32 (conectado ao TX do DFPlayer Mini)
-#define DFPLAYER_TX 2  // TX do ESP32 (conectado ao RX do DFPlayer Mini) (⚠️ Com resistor de 1kΩ)
+
+#define DFPLAYER_RX 4  
+#define DFPLAYER_TX 2 
 
 
-// Inicializa a Serial2 para comunicação com o DFPlayer Mini
+
 HardwareSerial mySerial(2);
 DFRobotDFPlayerMini player;
 
@@ -230,10 +230,9 @@ DFRobotDFPlayerMini player;
 
 
 
-#define PCF8575_ADDR 0x27  // Endereço correto do PCF8575
+#define PCF8575_ADDR 0x27  
 
-uint16_t estadoPortas = 0xFFFF;  // Inicializa todas as saídas como HIGH (desligadas)
-
+uint16_t estadoPortas = 0xFFFF;
 
 
 
@@ -241,20 +240,20 @@ uint16_t estadoPortas = 0xFFFF;  // Inicializa todas as saídas como HIGH (desli
 #include <SPI.h>
 #include <MFRC522.h>
 
-#define SS_PIN 12      // Pino para SDA (SS)
-#define RST_PIN 25     // Novo pino para RST
-#define SCK_PIN 27     // Pino para SCK
-#define MOSI_PIN 13    // Pino para MOSI
-#define MISO_PIN 32    // Pino para MISO
+#define SS_PIN 12      
+#define RST_PIN 25     
+#define SCK_PIN 27     
+#define MOSI_PIN 13    
+#define MISO_PIN 32   
 
-MFRC522 mfrc522(SS_PIN, RST_PIN); // Instância do MFRC522
+MFRC522 mfrc522(SS_PIN, RST_PIN); 
 
 
 
 
 const char* ntpServer = "pool.ntp.org";
-const long  gmtOffset_sec = -10800; // Ajuste para GMT-3 (Brasília, por exemplo)
-const int   daylightOffset_sec = 0; // Ajuste para horário de verão, se necessário
+const long  gmtOffset_sec = -10800; 
+const int   daylightOffset_sec = 0; 
 
 
 
@@ -262,21 +261,19 @@ const int   daylightOffset_sec = 0; // Ajuste para horário de verão, se necess
 #include <Adafruit_ADS1X15.h>
 #include <math.h>
 
-// Criando instâncias para os três ADS1115
-Adafruit_ADS1115 ads1;  // Endereço 0x48 (GND)
-Adafruit_ADS1115 ads2;  // Endereço 0x49 (SCL)
-Adafruit_ADS1115 ads3;  // Endereço 0x4A (SDA)
+Adafruit_ADS1115 ads1;
+Adafruit_ADS1115 ads2;  
+Adafruit_ADS1115 ads3;  
 
-// Sensibilidade do ACS712 (depende da versão do sensor: 5A, 20A ou 30A)
-#define SENSIBILIDADE 0.100  // Exemplo: ACS712 de 20A → 100mV/A (0.100V/A)
 
-// Offset de tensão (ponto de repouso do ACS712)
-#define V_REF 2.5  // O ACS712 tem saída centrada em 2,5V
+#define SENSIBILIDADE 0.100
 
-// Resolução do ADS1115 (convertido para volts)
-#define RESOLUCAO (4.096 / 32768.0)  // PGA ±4.096V
 
-// Número de amostras para calcular o valor RMS
+#define V_REF 2.5  
+
+
+#define RESOLUCAO (4.096 / 32768.0) 
+
 #define NUM_AMOSTRAS 100
 
 
@@ -294,10 +291,10 @@ void setup() {
    pinMode(19,OUTPUT);
 
 
-  // Inicializa SPI nos pinos personalizados
+  
     SPI.begin(SCK_PIN, MISO_PIN, MOSI_PIN, SS_PIN);
     
-    // Inicializa o módulo MFRC522
+    
     mfrc522.PCD_Init();
     Serial.println("Aproxime um cartão RFID...");
 
@@ -309,11 +306,11 @@ void setup() {
     }
 
     display.clearDisplay();
-    display.setTextSize(1);             // Define o tamanho do texto
-    display.setTextColor(SSD1306_WHITE); // Cor do texto
-    display.setCursor(0, 0);            // Posiciona o texto no topo
+    display.setTextSize(1);             
+    display.setTextColor(SSD1306_WHITE); 
+    display.setCursor(0, 0);            
 display.println("NIK: Oi Anderson Cruz");
-    display.drawBitmap(32, 16, logo, 64, 50, SSD1306_WHITE); // Exibe a imagem
+    display.drawBitmap(32, 16, logo, 64, 50, SSD1306_WHITE); 
     display.display();
 
 
@@ -322,20 +319,20 @@ display.println("NIK: Oi Anderson Cruz");
 
 
 
- mySerial.begin(9600, SERIAL_8N1, DFPLAYER_RX, DFPLAYER_TX);  // Inicia comunicação DFPlayer
+ mySerial.begin(9600, SERIAL_8N1, DFPLAYER_RX, DFPLAYER_TX); 
 
     Serial.println("Iniciando DFPlayer Mini...");
     
     if (!player.begin(mySerial)) {  
         Serial.println("Erro: DFPlayer Mini não encontrado!");
-        while (true);  // Se der erro, para tudo
+        while (true); 
     }
 
     Serial.println("DFPlayer Mini pronto!");
-    player.volume(30);  // Define volume (0 a 30)
+    player.volume(30);
     
 
-               delay(3000); //tempo obrigatório
+               delay(3000); 
     Serial.println("Aguardando comandos...");
 
        player.play(6); 
@@ -353,11 +350,11 @@ Serial.println();
   Serial.print("Conectando ao wifi");
   player.play(1);
       display.clearDisplay();
-    display.setTextSize(1);             // Define o tamanho do texto
-    display.setTextColor(SSD1306_WHITE); // Cor do texto
-    display.setCursor(0, 0);            // Posiciona o texto no topo
+    display.setTextSize(1);             
+    display.setTextColor(SSD1306_WHITE);
+    display.setCursor(0, 0);            
 display.println("Conectando no wifi...");
-      display.drawBitmap(32, 16, rede1, 64, 50, SSD1306_WHITE); // Exibe a imagem
+      display.drawBitmap(32, 16, rede1, 64, 50, SSD1306_WHITE); 
     display.display();
   delay(6000);
   while (WiFi.status() != WL_CONNECTED)
@@ -371,11 +368,11 @@ display.println("Conectando no wifi...");
 
 
 display.clearDisplay();
-    display.setTextSize(1);             // Define o tamanho do texto
-    display.setTextColor(SSD1306_WHITE); // Cor do texto
-    display.setCursor(0, 0);            // Posiciona o texto no topo
+    display.setTextSize(1);             
+    display.setTextColor(SSD1306_WHITE); 
+    display.setCursor(0, 0);            
 display.println("Conectando no wifi...");
-      display.drawBitmap(32, 16, rede2, 64, 50, SSD1306_WHITE); // Exibe a imagem
+      display.drawBitmap(32, 16, rede2, 64, 50, SSD1306_WHITE); 
     display.display();
 
     Serial.print(".");
@@ -384,11 +381,11 @@ display.println("Conectando no wifi...");
     cartao();
 
 display.clearDisplay();
-    display.setTextSize(1);             // Define o tamanho do texto
-    display.setTextColor(SSD1306_WHITE); // Cor do texto
-    display.setCursor(0, 0);            // Posiciona o texto no topo
+    display.setTextSize(1);             
+    display.setTextColor(SSD1306_WHITE); 
+    display.setCursor(0, 0);           
 display.println("Conectando no wifi...");
-      display.drawBitmap(32, 16, rede1, 64, 50, SSD1306_WHITE); // Exibe a imagem
+      display.drawBitmap(32, 16, rede1, 64, 50, SSD1306_WHITE); 
     display.display();
 
     desligaRele(14);
@@ -399,11 +396,11 @@ display.println("Conectando no wifi...");
   }
     player.play(7);
     display.clearDisplay();
-    display.setTextSize(1);             // Define o tamanho do texto
-    display.setTextColor(SSD1306_WHITE); // Cor do texto
-    display.setCursor(0, 0);            // Posiciona o texto no topo
+    display.setTextSize(1);           
+    display.setTextColor(SSD1306_WHITE); 
+    display.setCursor(0, 0);            
 display.println("Conectado na rede");
-      display.drawBitmap(32, 16, ok, 64, 50, SSD1306_WHITE); // Exibe a imagem
+      display.drawBitmap(32, 16, ok, 64, 50, SSD1306_WHITE); 
     display.display();
 
     Serial.print(".");
@@ -433,12 +430,11 @@ delay(3000);
 
 
 
-    // Inicializa os ADS1115 com seus respectivos endereços I2C
+    
     if (!ads1.begin(0x48)) Serial.println("Falha ao iniciar ADS1115 (0x48)");
     if (!ads2.begin(0x4A)) Serial.println("Falha ao iniciar ADS1115 (0x49)");
     if (!ads3.begin(0x4B)) Serial.println("Falha ao iniciar ADS1115 (0x4A)");
     
-    // Configura o PGA (Ganho) para ±4.096V (equivalente a 1 bit ≈ 125µV)
     ads1.setGain(GAIN_ONE);
     ads2.setGain(GAIN_ONE);
     ads3.setGain(GAIN_ONE);
@@ -450,7 +446,7 @@ delay(3000);
 
 String basePath = "/clientes/34789236/geral/conta_a_hora/";
 
-// Atualizar Firebase manualmente para cada sensor
+
 void atualizarFirebase(int sensor1, int sensor2, int sensor3, int sensor4, int sensor5, 
                         int sensor6, int sensor7, int sensor8, int sensor9, int sensor10) {
     int novoTotal;
@@ -598,7 +594,7 @@ void loop() {
 
 
 void ligaRele(int numeroRele) {
-    estadoPortas &= ~(1 << numeroRele);  // Modifica o pino específico para LOW (ligado)
+    estadoPortas &= ~(1 << numeroRele);  
     enviarComando(estadoPortas);
     Serial.print("Relé ");
     Serial.print(numeroRele);
@@ -606,7 +602,7 @@ void ligaRele(int numeroRele) {
 }
 
 void desligaRele(int numeroRele) {
-    estadoPortas |= (1 << numeroRele);  // Modifica o pino específico para HIGH (desligado)
+    estadoPortas |= (1 << numeroRele);  
     enviarComando(estadoPortas);
     Serial.print("Relé ");
     Serial.print(numeroRele);
@@ -615,8 +611,8 @@ void desligaRele(int numeroRele) {
 
 void enviarComando(uint16_t estado) {
     Wire.beginTransmission(PCF8575_ADDR);
-    Wire.write(estado & 0xFF);       // Byte P0-P7
-    Wire.write((estado >> 8) & 0xFF); // Byte P8-P15
+    Wire.write(estado & 0xFF);       
+    Wire.write((estado >> 8) & 0xFF); 
     Wire.endTransmission();
 }
 
@@ -625,7 +621,7 @@ void enviarComando(uint16_t estado) {
 void cartao() {
     if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial()) return;
 
-    // Verifica se o UID corresponde ao cartão de Isaque
+    
     if (mfrc522.uid.size == 4 &&
         mfrc522.uid.uidByte[0] == 0x23 &&
         mfrc522.uid.uidByte[1] == 0x27 &&
@@ -640,11 +636,11 @@ void cartao() {
 
 
     display.clearDisplay();
-    display.setTextSize(1);             // Define o tamanho do texto
-    display.setTextColor(SSD1306_WHITE); // Cor do texto
-    display.setCursor(0, 0);            // Posiciona o texto no topo
+    display.setTextSize(1);             
+    display.setTextColor(SSD1306_WHITE); 
+    display.setCursor(0, 0);          
 display.println("!!!Risco de choque!!!");
-    display.drawBitmap(32, 16, liberado, 64, 50, SSD1306_WHITE); // Exibe a imagem
+    display.drawBitmap(32, 16, liberado, 64, 50, SSD1306_WHITE); 
     display.display();
 
 
@@ -679,11 +675,11 @@ digitalWrite(18,0);
 
 
     display.clearDisplay();
-    display.setTextSize(1);             // Define o tamanho do texto
-    display.setTextColor(SSD1306_WHITE); // Cor do texto
-    display.setCursor(0, 0);            // Posiciona o texto no topo
+    display.setTextSize(1);           
+    display.setTextColor(SSD1306_WHITE); 
+    display.setCursor(0, 0);           
 display.println("!!!Risco de choque!!!");
-    display.drawBitmap(32, 16, liberado, 64, 50, SSD1306_WHITE); // Exibe a imagem
+    display.drawBitmap(32, 16, liberado, 64, 50, SSD1306_WHITE); 
     display.display();
 
 
@@ -710,11 +706,11 @@ digitalWrite(18,0);
               ligaRele(15);
               desligaRele(14);
     display.clearDisplay();
-    display.setTextSize(1);             // Define o tamanho do texto
-    display.setTextColor(SSD1306_WHITE); // Cor do texto
-    display.setCursor(0, 0);            // Posiciona o texto no topo
+    display.setTextSize(1);            
+    display.setTextColor(SSD1306_WHITE); 
+    display.setCursor(0, 0);            
 display.println("!Contato recusado!");
-    display.drawBitmap(32, 16, bloqueio, 64, 50, SSD1306_WHITE); // Exibe a imagem
+    display.drawBitmap(32, 16, bloqueio, 64, 50, SSD1306_WHITE);
     display.display();
 
         delay(8000);
@@ -730,13 +726,13 @@ display.println("!Contato recusado!");
 
 
 
-// Função para calcular a corrente RMS de um canal específico do ADS1115
+
 int calcularCorrenteRMS(Adafruit_ADS1115 &ads, int canal) {
     float somaQuadrados = 0;
     for (int i = 0; i < NUM_AMOSTRAS; i++) {
         int16_t leitura = ads.readADC_SingleEnded(canal);
-        float tensao = leitura * RESOLUCAO;  // Converte para volts
-        float corrente = (tensao - V_REF) / SENSIBILIDADE;  // Converte para Amperes
+        float tensao = leitura * RESOLUCAO;  
+        float corrente = (tensao - V_REF) / SENSIBILIDADE; 
         somaQuadrados += pow(corrente, 2);
     }
     float correnteRMS = sqrt(somaQuadrados / NUM_AMOSTRAS);
